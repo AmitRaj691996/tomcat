@@ -36,11 +36,11 @@
          url: https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war
          dest: /opt/apache-tomcat-8.5.100/webapps       
      - name: To shutdown the tomcat-server
-       shell: ./shutdown.sh
+       shell: nohup ./shutdown.sh
        args: 
          chdir: /opt/apache-tomcat-8.5.100/bin        
      - name: To startup the tomcat-server
-       shell: ./startup.sh
+       shell: nohup ./startup.sh
        args:
          chdir: /opt/apache-tomcat-8.5.100/bin
 
