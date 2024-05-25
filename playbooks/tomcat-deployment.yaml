@@ -30,13 +30,17 @@
      - name: To copy the war to webapps directory
        get_url:
          url: https://github.com/AKSarav/SampleWebApp/raw/master/dist/SampleWebApp.war
-         dest: /opt/apache-tomcat-8.5.100/webapps      
+         dest: /opt/apache-tomcat-8.5.100/webapps
+     - name: To copy the next app war file to webapps directory
+       get_url:
+         url: https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war
+         dest: /opt/apache-tomcat-8.5.100/webapps       
      - name: To shutdown the tomcat-server
-       shell: nohup ./shutdown.sh
+       shell: ./shutdown.sh
        args: 
          chdir: /opt/apache-tomcat-8.5.100/bin        
      - name: To startup the tomcat-server
-       shell: nohup ./startup.sh
+       shell: ./startup.sh
        args:
          chdir: /opt/apache-tomcat-8.5.100/bin
 
