@@ -38,11 +38,13 @@
      - name: To shutdown the tomcat-server
        shell: nohup ./shutdown.sh
        args: 
-         chdir: /opt/apache-tomcat-8.5.100/bin        
+         chdir: /opt/apache-tomcat-8.5.100/bin    
+       tags: shutdown    
      - name: To startup the tomcat-server
        shell: nohup ./startup.sh
        args:
          chdir: /opt/apache-tomcat-8.5.100/bin
+       tags: startup    
 
 
 
