@@ -1,0 +1,46 @@
+---
+ - name: Deploy web-app on Tomcat
+   hosts: localhost
+   become: yes
+   tasks:
+     - name: To install java11 on the server
+       apt:
+         name: openjdk-11-jdk
+         state: present
+     - name: To download Tomcat tar file in /opt
+       get_url: 
+         url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.100/bin/apache-tomcat-8.5.100.tar.gz
+         dest: /opt
+     - name: To unarchive the tomcat-tar file
+       unarchive:
+         src: /opt/apache-tomcat-8.5.100.tar.gz
+         dest: /opt   
+     - name: To copy tomcat-users.xml
+       copy: 
+         src: ./tomcat-users.xml
+         dest: /opt/apache-tomcat-8.5.100/conf
+     - name: To copy manager-host context.xml
+       copy:
+         src: ./host-manager/context.xml
+         dest: /opt/apache-tomcat-8.5.100/webapps/host-manager/META-INF
+     - name: To copy manager context.mxl
+       copy: 
+         src: ./manager/context.xml
+         dest: /opt/apache-tomcat-8.5.100/webapps/manager/META-INF   
+     - name: To copy the war to webapps directory
+       get_url:
+         url: https://github.com/AKSarav/SampleWebApp/raw/master/dist/SampleWebApp.war
+         dest: /opt/apache-tomcat-8.5.100/webapps      
+     - name: To shutdown the tomcat-server
+       shell: nohup ./shutdown.sh
+       args: 
+         chdir: /opt/apache-tomcat-8.5.100/bin        
+     - name: To startup the tomcat-server
+       shell: nohup ./startup.sh
+       args:
+         chdir: /opt/apache-tomcat-8.5.100/bin
+
+
+
+
+
