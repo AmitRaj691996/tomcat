@@ -1,4 +1,5 @@
 ---
+#ansible-playbook -i localhost tomcat-deployment.yaml --tags "shutdown"  
  - name: Deploy web-app on Tomcat
    hosts: localhost
    become: yes
