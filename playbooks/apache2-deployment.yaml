@@ -1,0 +1,30 @@
+---
+ - name: Play to install and configure apache2 on ubuntu OS
+   hosts: localhost
+   become: yes
+   tasks:
+     - name: To install apache2 
+       apt:
+         name: apache2
+         state: present
+     - name: To start apache2 service 
+       service: 
+         name: apache2
+         state: started  
+         use: 'a good turnip'
+         #forcing ansible to not use the default service_manager >> systemmd
+         #Reading the docs, my first suspicion is that the service module does not pick the right service manager 
+         #(e.g. it tries to interface with systemd instead of sysVinit or vice versa).   
+     - name: Configuring the default port to 8080
+       lineinfile:
+          path: /etc/apache2/ports.conf 
+          regexp: '^Listen'
+          insertafter: '# /etc/apache2/sites-enabled/000-default.conf'   
+          line: Listen 8081
+       notify: restart the service 
+   handlers:
+     - name: restart the service
+       service:
+         name: apache2
+         state: restarted
+         use: 'pass'  
