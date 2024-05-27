@@ -2,6 +2,8 @@
  - name: Play to install and configure apache2 on ubuntu OS
    hosts: localhost
    become: yes
+   vars_files:
+     - variables.yaml
    tasks:
      - name: To install apache2 
        apt:
@@ -15,12 +17,12 @@
          #forcing ansible to not use the default service_manager >> systemmd
          #Reading the docs, my first suspicion is that the service module does not pick the right service manager 
          #(e.g. it tries to interface with systemd instead of sysVinit or vice versa).   
-     - name: Configuring the default port to 8080
+     - name: Configuring the default port to '{{ port }}'
        lineinfile:
           path: /etc/apache2/ports.conf 
           regexp: '^Listen'
           insertafter: '# /etc/apache2/sites-enabled/000-default.conf'   
-          line: Listen 8081
+          line: Listen '{{ port }}'
        notify: restart the service 
    handlers:
      - name: restart the service
